@@ -15,11 +15,14 @@ import android.net.NetworkInfo
 
 import android.net.ConnectivityManager
 import android.os.Build
+import android.widget.Toast
 
 
 private const val TAG = "MainActivity"
 private const val BASE_URL = "https://api.yelp.com/v3/"
 private const val API_KEY = "50MC4LViWS6lrAn3X-ojoH0YxE-D52u2QijJGduno3Ph8nfo3TrSp5Cuv_EZri55wv91zzw1YMdwHfrQz-QSF6HS6cMfUEzFX8CuXDhcR3r_FaGupiz9v1FSsYeUYXYx"
+
+
 class MainActivity : AppCompatActivity() {
     private lateinit var rvRestaurants: RecyclerView
 
@@ -38,8 +41,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if (isNetworkAvailable() == true) {
-
+        if (isNetworkAvailable() != true) {
+            Toast.makeText(this,"Error: not connected to a network. Please connect and try again.",Toast.LENGTH_LONG).show();
+        }
 
             val restaurants = mutableListOf<YelpRestaurant>()
             val adapter = RestaurantsAdapter(this, restaurants)
@@ -74,9 +78,4 @@ class MainActivity : AppCompatActivity() {
                 })
             //
         }
-
-        else {
-            print("Error: Not connected to any service/internet. Try again when connected to a network.")
-        }
     }
-}
